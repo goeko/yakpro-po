@@ -22,13 +22,17 @@ $conf->t_ignore_pre_defined_classes     = 'all';        // 'all' (default value)
                                                         // you can limit the number of method names to ignore by providing an array of the pre-defined classes you really use in your software!
                                                         // same behaviour for properties...
 
-$conf->t_ignore_constants               = null;         // array where values are names to ignore.
+$conf->t_ignore_constants               = array('ENVIRONMENT', 'CI_DEBUG');         // array where values are names to ignore.
 $conf->t_ignore_variables               = null;         // array where values are names to ignore.
 $conf->t_ignore_functions               = null;         // array where values are names to ignore.
 $conf->t_ignore_class_constants         = null;         // array where values are names to ignore.
 $conf->t_ignore_methods                 = null;         // array where values are names to ignore.
 $conf->t_ignore_properties              = null;         // array where values are names to ignore.
-$conf->t_ignore_classes                 = null;         // array where values are names to ignore.
+$conf->t_ignore_classes = array(
+    'Config\\Autoload',
+    'Config\\BaseConfig',
+    'Config\\App'
+);
 $conf->t_ignore_interfaces              = null;         // array where values are names to ignore.
 $conf->t_ignore_traits                  = null;         // array where values are names to ignore.
 $conf->t_ignore_namespaces              = null;         // array where values are names to ignore.
@@ -48,7 +52,7 @@ $conf->t_ignore_traits_prefix           = null;         // array where values ar
 $conf->t_ignore_namespaces_prefix       = null;         // array where values are prefix of names to ignore.
 $conf->t_ignore_labels_prefix           = null;         // array where values are prefix of names to ignore.
 
-$conf->parser_mode                      = 'PREFER_PHP5';// allowed modes are 'PREFER_PHP7', 'PREFER_PHP5', 'ONLY_PHP7', 'ONLY_PHP5'
+$conf->parser_mode                      = 'PREFER_PHP7';// allowed modes are 'PREFER_PHP7', 'PREFER_PHP5', 'ONLY_PHP7', 'ONLY_PHP5'
                                                         // see PHP-Parser documentation for meaning...
 
 $conf->scramble_mode                    = 'identifier'; // allowed modes are 'identifier', 'hexa', 'numeric'
@@ -56,22 +60,22 @@ $conf->scramble_length                  = 5;            // min length of scrambl
 
 $conf->t_obfuscate_php_extension        = array('php'); // array where values are extensions of php files to be obfuscated.
 
-$conf->obfuscate_constant_name          = true;         // self explanatory
-$conf->obfuscate_variable_name          = true;         // self explanatory
-$conf->obfuscate_function_name          = true;         // self explanatory
-$conf->obfuscate_class_name             = true;         // self explanatory
-$conf->obfuscate_interface_name         = true;         // self explanatory
-$conf->obfuscate_trait_name             = true;         // self explanatory
-$conf->obfuscate_class_constant_name    = true;         // self explanatory
-$conf->obfuscate_property_name          = true;         // self explanatory
-$conf->obfuscate_method_name            = true;         // self explanatory
-$conf->obfuscate_namespace_name         = true;         // self explanatory
-$conf->obfuscate_label_name             = true;         // label: , goto label;  obfuscation
-$conf->obfuscate_if_statement           = true;         // obfuscation of  if else elseif statements
-$conf->obfuscate_loop_statement         = true;         // obfuscation of  for while do while statements
-$conf->obfuscate_string_literal         = true;         // pseudo-obfuscation of  string literals
+$conf->obfuscate_constant_name          = false;         // Do not obfuscate constant names
+$conf->obfuscate_variable_name          = true;         // Obfuscate variable names
+$conf->obfuscate_function_name          = true;         // Obfuscate function names
+$conf->obfuscate_class_name             = false;         // Obfuscate class names
+$conf->obfuscate_interface_name         = true;         // Obfuscate interface names
+$conf->obfuscate_trait_name             = true;         // Obfuscate trait names
+$conf->obfuscate_class_constant_name    = true;         // Obfuscate class constant names
+$conf->obfuscate_property_name          = true;         // Obfuscate property names
+$conf->obfuscate_method_name            = true;         // Obfuscate method names
+$conf->obfuscate_namespace_name         = true;         // Obfuscate namespace names
+$conf->obfuscate_label_name             = true;         // Obfuscate label names (used in goto statements)
+$conf->obfuscate_if_statement           = true;         // Obfuscate if statements
+$conf->obfuscate_loop_statement         = true;         // Obfuscate loop statements (for, while, do while)
+$conf->obfuscate_string_literal         = true;         // Obfuscate string literals
 
-$conf->shuffle_stmts                    = true;         // shuffle chunks of statements!  disable this obfuscation (or minimize the number of chunks) if performance is important for you!
+$conf->shuffle_stmts                    = false;         // Do not shuffle statements to maintain code structure
 $conf->shuffle_stmts_min_chunk_size     =    1;         // minimum number of statements in a chunk! the min value is 1, that gives you the maximum of obfuscation ... and the minimum of performance...
 $conf->shuffle_stmts_chunk_mode         = 'fixed';      // 'fixed' or 'ratio' in fixed mode, the chunk_size is always equal to the min chunk size!
 $conf->shuffle_stmts_chunk_ratio        =   20;         // ratio > 1  100/ratio is the percentage of chunks in a statements sequence  ratio = 2 means 50%  ratio = 100 mins 1% ...
@@ -86,7 +90,51 @@ $conf->silent                           = false;        // display or not Inform
 $conf->source_directory                 = null;         // self explanatory
 $conf->target_directory                 = null;         // self explanatory
 
-$conf->t_keep                           = null;         // array of directory or file pathnames, to keep 'as is' (i.e. not obfuscate.)
+$conf->t_keep = array(
+    'Config/App.php',
+    'Config/Auth.php',
+    'Config/AuthGroups.php',
+    'Config/AuthToken.php',
+    'Config/Autoload.php',
+    'Config/Boot',
+    'Config/CURLRequest.php',
+    'Config/Cache.php',
+    'Config/Constants.php',
+    'Config/ContentSecurityPolicy.php',
+    'Config/Cookie.php',
+    'Config/Cors.php',
+    'Config/Database.php',
+    'Config/DocTypes.php',
+    'Config/Email.php',
+    'Config/Encryption.php',
+    'Config/Events.php',
+    'Config/Exceptions.php',
+    'Config/Feature.php',
+    'Config/Filters.php',
+    'Config/ForeignCharacters.php',
+    'Config/Format.php',
+    'Config/Generators.php',
+    'Config/Honeypot.php',
+    'Config/Images.php',
+    'Config/Kint.php',
+    'Config/Logger.php',
+    'Config/Migrations.php',
+    'Config/Mimes.php',
+    'Config/Modules.php',
+    'Config/Optimize.php',
+    'Config/Pager.php',
+    'Config/Paths.php',
+    'Config/Publisher.php',
+    'Config/Routes.php',
+    'Config/Routing.php',
+    'Config/Security.php',
+    'Config/Services.php',
+    'Config/Session.php',
+    'Config/Toolbar.php',
+    'Config/UserAgents.php',
+    'Config/Validation.php',
+    'Config/View.php'
+);
 $conf->t_skip                           = null;         // array of directory or file pathnames, to skip when exploring source tree structure ... they will not be on target!
 $conf->allow_and_overwrite_empty_files  = true;         // allow empty files to be kept as is
 
